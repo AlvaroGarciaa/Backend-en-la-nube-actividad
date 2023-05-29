@@ -26,6 +26,7 @@ class CognitoService{
     private constructor(){
         this.config={
             region: AWS_REGION,
+            
         };
         this.cognitoIdentity = new AWS.CognitoIdentityServiceProvider(this.config);
     }

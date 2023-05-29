@@ -75,7 +75,7 @@ class AuthenticationController extends AbstractController{
                 {overwrite:false}
             )
             console.log('Usuario guardado en BDNoSQL')
-            //Guard el usuario en DB relacional (MySQL)
+            // //Guard el usuario en DB relacional (MySQL)
             await db['User'].create(
                 {
                     awsCognitoId:user.UserSub,
