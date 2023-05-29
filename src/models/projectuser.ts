@@ -20,7 +20,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
         allowNull:false,
         primaryKey:true,
         references:{
-            model:'Project',
+            model:'Account',
             key:'id'
         }
     },
