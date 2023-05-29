@@ -24,12 +24,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     lastName!: string;
     role!: string;
     email!: string;
-    static associate(models:any) {
-      // define association here
-      User.belongsToMany(models.Project,{
-          through:'AccountUser'
-      })
-    }
+    
   }
   User.init({
     awsCognitoId:{

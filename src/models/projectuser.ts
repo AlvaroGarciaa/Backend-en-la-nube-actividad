@@ -13,10 +13,6 @@ module.exports = (sequelize:any, DataTypes:any) => {
     AccountId!: number;
     UserId!: string;
     Balance!: number;
-    static associate(models:any) {
-      // define association here
-      
-    }
   }
   AccountUser.init({
     AccountId:{
