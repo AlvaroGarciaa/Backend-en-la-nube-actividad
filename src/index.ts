@@ -1,28 +1,30 @@
 import Server from "./providers/Server";
 import express from "express";
-import cors from 'cors';
+import cors from "cors";
 import UserController from "./controllers/UserController";
+import AccountController from "./controller/AccountController";
 import AuthenticationController from "./controllers/AuthenticationController";
 
 const app = new Server({
-    port:8080,
-    middlewares:[
+    port: 8080,
+    middlewares: [
         express.json(),
-        express.urlencoded({extended:true}),
-        cors()
+        express.urlencoded({ extended: true }),
+        cors(),
     ],
-    controllers:[
+    controllers: [
         UserController.getInstance(),
-        AuthenticationController.getInstance()
+        AuthenticationController.getInstance(),
+        AccountController.getInstance(),
     ],
-    env:'development'
+    env: "development",
 });
 
-declare global{
-    namespace Express{
-        interface Request{
-            user:string;
-            token:string;
+declare global {
+    namespace Express {
+        interface Request {
+            user: string;
+            token: string;
         }
     }
 }
