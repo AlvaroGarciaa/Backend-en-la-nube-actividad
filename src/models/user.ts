@@ -41,7 +41,11 @@ module.exports = (sequelize:any, DataTypes:any) => {
       allowNull:false,
       defaultValue:UserRoles.CUSTOMER
     },
-    balance: DataTypes.DECIMAL(10,2),
+    balance: {
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: false,
+      defaultValue: 0
+    },
   }, {
     sequelize,
     modelName: 'User',
