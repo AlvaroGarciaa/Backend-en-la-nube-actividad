@@ -5,6 +5,7 @@ import {Model} from 'sequelize';
 interface UserAttributes{
   awsCognitoId:string,
   name:string,
+  lastName: string,
   role:string,
   email:string
 }
@@ -20,12 +21,13 @@ module.exports = (sequelize:any, DataTypes:any) => {
   class User extends Model<UserAttributes> implements UserAttributes {
     awsCognitoId!: string;
     name!: string;
+    lastName!: string;
     role!: string;
     email!: string;
     static associate(models:any) {
       // define association here
       User.belongsToMany(models.Project,{
-          through:'ProjectUser'
+          through:'AccountUser'
       })
     }
   }
@@ -36,6 +38,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
       primaryKey: true
     },
     name: DataTypes.STRING,
+    lastName: DataTypes.STRING, 
     email: DataTypes.STRING,
     role:{
       type:DataTypes.STRING,
