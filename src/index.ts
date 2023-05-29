@@ -2,7 +2,7 @@ import Server from "./providers/Server";
 import express from "express";
 import cors from "cors";
 import UserController from "./controllers/UserController";
-import AccountController from "./controller/AccountController";
+import AccountController from "./controllers/AccountController";
 import AuthenticationController from "./controllers/AuthenticationController";
 
 const app = new Server({
