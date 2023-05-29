@@ -3,23 +3,23 @@
 import {Model} from 'sequelize';
 
 interface ProjectUserAttributes{
-  ProjectId:number,
+  AccountId:number,
   UserId:string,
-  budget:number  
+  Balance:number  
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
-  class ProjectUser extends Model<ProjectUserAttributes> implements ProjectUserAttributes {
-    ProjectId!:number;
-    UserId!:string;
-    budget!:number;
+  class AccountUser extends Model<ProjectUserAttributes> implements ProjectUserAttributes {
+    AccountId!: number;
+    UserId!: string;
+    Balance!: number;
     static associate(models:any) {
       // define association here
       
     }
   }
-  ProjectUser.init({
-    ProjectId:{
+  AccountUser.init({
+    AccountId:{
         type:DataTypes.INTEGER,
         allowNull:false,
         primaryKey:true,
@@ -37,10 +37,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
             key:'awsCognitoId'
         }
     },
-    budget:DataTypes.DECIMAL(10,2)    
+    Balance:DataTypes.DECIMAL(10,2)    
   }, {
     sequelize,
-    modelName: 'ProjectUser',
+    modelName: 'AccountUser',
   });
-  return ProjectUser;
+  return AccountUser;
 };

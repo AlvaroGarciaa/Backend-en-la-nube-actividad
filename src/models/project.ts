@@ -2,42 +2,36 @@
 
 import {Model} from 'sequelize';
 
-interface ProjectAttributes{
+interface AccountAttributes{
   id:number,
-  title:string,
-  status:string  
+  balance: number,  
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
-  class Project extends Model<ProjectAttributes> implements ProjectAttributes {
+  class Account extends Model<AccountAttributes> implements AccountAttributes {
     id!:number;
-    title!:string;
-   status!:string;
+    balance!:number;
     static associate(models:any) {
       // define association here
-      Project.belongsToMany(models.User,{
-        through:'ProjectUser'
+      Account.belongsToMany(models.User,{
+        through:'AccountUser'
       })
     }
   }
-  Project.init({
+  Account.init({
     id:{
         type:DataTypes.INTEGER,
         allowNull:false,
         primaryKey:true,
         autoIncrement:true
     },
-    title:{
-        type:DataTypes.STRING,
+    balance:{
+        type:DataTypes.DECIMAL(10,2)  ,
         allowNull:false
     },
-    status:{
-        type:DataTypes.STRING,
-        allowNull:false
-    }
   }, {
     sequelize,
-    modelName: 'Project',
+    modelName: 'Account',
   });
-  return Project;
+  return Account;
 };
