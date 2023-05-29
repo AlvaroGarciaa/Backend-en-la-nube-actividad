@@ -6,7 +6,8 @@ interface UserAttributes{
   awsCognitoId:string,
   name:string,
   role:string,
-  email:string
+  email:string,
+  balance: number
 }
 
 export enum UserRoles{
@@ -22,11 +23,9 @@ module.exports = (sequelize:any, DataTypes:any) => {
     name!: string;
     role!: string;
     email!: string;
+    balance!: number;
     static associate(models:any) {
       // define association here
-      User.belongsToMany(models.Account,{
-          through:'ProjectUser'
-      })
     }
   }
   User.init({
@@ -41,7 +40,8 @@ module.exports = (sequelize:any, DataTypes:any) => {
       type:DataTypes.STRING,
       allowNull:false,
       defaultValue:UserRoles.CUSTOMER
-    }
+    },
+    balance: DataTypes.DECIMAL(10,2),
   }, {
     sequelize,
     modelName: 'User',
