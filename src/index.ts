@@ -2,7 +2,7 @@ import Server from "./providers/Server";
 import express from "express";
 import cors from "cors";
 import UserController from "./controllers/UserController";
-import AccountController from "./controllers/AccountController";
+//import AccountController from "./controllers/AccountController";
 import AuthenticationController from "./controllers/AuthenticationController";
 import ManagerController from "./controllers/ManagerController";
 
@@ -16,7 +16,7 @@ const app = new Server({
     controllers: [
         UserController.getInstance(),
         AuthenticationController.getInstance(),
-        AccountController.getInstance(),
+        //AccountController.getInstance(),
         ManagerController.getInstance(),
 
     ],
