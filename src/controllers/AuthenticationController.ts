@@ -24,6 +24,7 @@ class AuthenticationController extends AbstractController{
         this.router.post('/signup', this.signup.bind(this));
         this.router.post('/verify',this.verify.bind(this));
         this.router.post('/signin',this.signin.bind(this));
+        this.router.post('/createManager',this.createManager.bind(this));
         this.router.get('/test',this.authMiddleware.verifyToken,this.test.bind(this));
     }
 
@@ -64,26 +65,39 @@ class AuthenticationController extends AbstractController{
                     Value: email
                 }
             ])
-            //Guardar el usuario en DB NoSQL (DynamoDB)
-            await UserModel.create(
-                {
-                    awsCognitoId:user.UserSub,
-                    name,
-                    role,
-                    email
-                },
-                {overwrite:false}
-            )
-            console.log('Usuario guardado en BDNoSQL')
             // //Guard el usuario en DB relacional (MySQL)
             await db['User'].create(
                 {
                     awsCognitoId:user.UserSub,
                     name,
                     role,
-                    email
+                    email,
+                    balance:0
                 }
             )
+            console.log("Usuario de cognito creado",user);
+            res.status(201).send({message:"User signedUp"})
+        }catch(error:any){
+            res.status(500).send({code:error.code,message:error.message}).end()
+        }
+    }
+
+    private async createManager(req:Request,res:Response){
+        const {email,password,name, role} = req.body;
+        try{
+            //Create a new user in Cognito
+            const user = await this.cognitoService.signUpUser(email,password,[
+                {
+                    Name: 'email',
+                    Value: email
+                }
+            ])
+            // //Guard el usuario en DB relacional (MySQL)
+            await db['Manager'].create({
+                awsCognitoId:user.UserSub,
+                name,
+                email
+            } )
             console.log("Usuario de cognito creado",user);
             res.status(201).send({message:"User signedUp"})
         }catch(error:any){
