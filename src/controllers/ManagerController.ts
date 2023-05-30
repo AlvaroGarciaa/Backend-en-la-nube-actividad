@@ -33,8 +33,21 @@ class ManagerController extends AbstractController{
         }
     }
 
-    private getSegmentation(req: Request, res: Response){
-        res.status(200).send("Cuentas segmentadas alv");
+    private async getSegmentation(req: Request, res: Response){
+        try{
+            const {minBalance, maxBalance} = req.body;
+
+            const accounts = await db.User.findAll({
+                where:{
+                    balance: {
+                        [db.Sequelize.Op.between]: [minBalance, maxBalance],
+                    },
+                },
+            });
+            return res.status(200).send({'accounts': accounts});
+        }catch(error){
+            return res.status(500).send({'error': error})
+        }
     }
 }
 
