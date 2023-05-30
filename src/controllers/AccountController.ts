@@ -26,9 +26,9 @@ class UserController extends AbstractController {
         return this.instance;
     }
     protected initRoutes(): void {
-        this.router.post('/deposito', this.cuentaDeposito.bind(this));
-        this.router.post('/retiro',this.realizarRetiro.bind(this));
-        this.router.get('/saldo',this.consultarSaldo.bind(this));
+        this.router.post('/cuenta/deposito', this.cuentaDeposito.bind(this));
+        this.router.post('/cuenta/retiro',this.realizarRetiro.bind(this));
+        this.router.get('/cuenta/saldo',this.consultarSaldo.bind(this));
     }
 
 
