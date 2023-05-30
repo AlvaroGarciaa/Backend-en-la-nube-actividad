@@ -68,7 +68,6 @@ class CognitoService{
         
         return await this.cognitoIdentity.initiateAuth(params).promise();
     }
-
     //TODO: Recuperación de password, admistración de admins de la pool
 
 
