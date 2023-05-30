@@ -37,6 +37,9 @@ class ManagerController extends AbstractController{
         try{
             const {minBalance, maxBalance} = req.body;
 
+            if(!minBalance || !maxBalance)
+                return res.status(400).send({'error': 'Missing info'})
+
             const accounts = await db.User.findAll({
                 where:{
                     balance: {
