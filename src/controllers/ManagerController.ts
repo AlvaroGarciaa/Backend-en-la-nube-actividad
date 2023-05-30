@@ -19,7 +19,7 @@ class ManagerController extends AbstractController{
     }
 
     protected initRoutes(): void {
-        this.router.get("/consultarCuentas", this.authMiddleware.verifyToken, this.getAccounts.bind(this));
+        this.router.get("/consultarCuentas", this.authMiddleware.verifyToken,this.permissionMiddleware.checkIsAgent ,this.getAccounts.bind(this));
         this.router.post("/segmentacion",this.authMiddleware.verifyToken, this.permissionMiddleware.checkIsAgent, this.getSegmentation.bind(this));
     }
 
