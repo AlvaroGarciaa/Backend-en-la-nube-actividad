@@ -28,9 +28,9 @@ export default class PermissionMiddleware {
         const userId = decodedJWT.payload.username;
         console.log(userId);
         // Fetch the user from the database
-        const user = await db.Manager.findOne({
+        const user = await db.Agent.findOne({
           where: {
-            awsCognitoId: {userId}
+            awsCognitoId:userId
           }
         });
   
