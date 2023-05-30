@@ -1,53 +1,42 @@
 import { Response, Request, NextFunction } from 'express';
-// Models
-//import PostModel from '../models/post.model';
-import  UserModel, { UserRoles } from '../modelsNOSQL/userNOSQL';
-
+import Manager from '../models/';
 
 export default class PermissionMiddleware {
-	// Singleton
-	private static instance: PermissionMiddleware;
-	public static getInstance(): PermissionMiddleware {
-		if (this.instance) {
-			return this.instance;
-		}
-		this.instance = new PermissionMiddleware();
-		return this.instance;
-	}
+  // Singleton
+  private static instance: PermissionMiddleware;
+  public static getInstance(): PermissionMiddleware {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new PermissionMiddleware();
+    return this.instance;
+  }
 
-	/**
-	 * Verify that the current user is an Supervisor
-	 */
-	public async checkIsSupervisor(req: Request, res: Response, next: NextFunction): Promise<void> {
-		try {
-			const user = await UserModel.get(req.user, '', {
-				AttributesToGet: ['role'],
-			});
-			if (user.attrs.role === UserRoles.SUPERVISOR) {
-				next();
-			} else {
-				res.status(401).send({ code: 'UserNotSupervisorException', message: 'The logged account is not an supervisor' });
-			}
-		} catch (error:any) {
-			res.status(500).send({ code: error.code, message: error.message });
-		}
-	}
+  /**
+   * Verify that the current user is an Agent
+   */
+  public async checkIsAgent(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const userId = req.user; // Assuming you have a middleware that sets the user object on the request
 
-	/**
-	 * Verify that the current user is an admin
-	 */
-	public async checkIsAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
-			try {
-				const user = await UserModel.get(req.user, '', {
-					AttributesToGet: ['role'],
-				});
-				if (user.attrs.role === UserRoles.ADMIN) {
-					next();
-				} else {
-					res.status(401).send({ code: 'UserNotAdminException', message: 'The logged account is not an admin' });
-				}
-			} catch (error:any) {
-				res.status(500).send({ code: error.code, message: error.message });
-			}
-		}
+      // Fetch the user from the database
+      const user = await Manager.findByPk(userId);
+
+      if (!user) {
+        res.status(401).send({ 'message': 'User not found' });
+        return;
+      }
+
+      if (user.role !== 'AGENT') {
+        res.status(403).send({ 'message': 'User is not an agent' });
+        return;
+      }
+
+      // User is an agent, allow the request to proceed
+      next();
+    } catch (error) {
+      console.error('Error in checkIsAgent middleware:', error);
+      res.status(500).send({ 'message': 'Internal server error' });
+    }
+  }
 }
