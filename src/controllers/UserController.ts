@@ -29,11 +29,12 @@ class UserController extends AbstractController {
           const { accountId, montoDeposito } = req.body;
     
           // Consulta el saldo actual
-          const account = db.Account.find((account: any) => account.id === accountId);
+          const account = db.User.find((account: any) => account.id === accountId);
           
           if (account) {
             const saldoActual = account.balance;
             const nuevoSaldo = saldoActual + montoDeposito;
+            console.log("hola")
     
             // Actualiza el saldo de la cuenta en la base de datos simulada
             db.Account = db.Account.map((account: any) => {
@@ -57,7 +58,7 @@ class UserController extends AbstractController {
           const { accountId, montoRetiro } = req.body;
     
           // Consulta el saldo actual
-          const rows = db.Account.find((account: any) => account.id === accountId);
+          const rows = db.AccountUser.find((AccountUser: any) => AccountUser.id === accountId);
           
           if (rows) {
             const saldoActual = rows.balance;
@@ -84,15 +85,15 @@ class UserController extends AbstractController {
         }
     }
 
-    private getBalance(req: Request, res: Response) {
+    private async getBalance(req: Request, res: Response) {
         try {
-          const { id } = req.body;
+          const { email} = req.body;
       
           // Consulta el saldo actual
-          const account = db['bank'].Account.find((account: any) => account.id === id); // Busca la cuenta por su 'id' en la tabla 'Account'
+          const balances = await db.User.find((user: any) => user.email === email);
       
-          if (account) {
-            const saldoActual = account.balance;
+          if (balances) {
+            const saldoActual = balances.balance;
             res.status(200).send({ saldo: saldoActual });
           } else {
             res.status(404).send({ error: 'No se encontró la cuenta' });
