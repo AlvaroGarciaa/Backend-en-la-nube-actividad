@@ -5,9 +5,9 @@ import {Model} from 'sequelize';
 interface UserAttributes{
   awsCognitoId:string,
   name:string,
-  lastName: string,
   role:string,
-  email:string
+  email:string,
+  balance: number
 }
 
 export enum UserRoles{
@@ -21,10 +21,12 @@ module.exports = (sequelize:any, DataTypes:any) => {
   class User extends Model<UserAttributes> implements UserAttributes {
     awsCognitoId!: string;
     name!: string;
-    lastName!: string;
     role!: string;
     email!: string;
-    
+    balance!: number;
+    static associate(models:any) {
+      // define association here
+    }
   }
   User.init({
     awsCognitoId:{
@@ -33,13 +35,17 @@ module.exports = (sequelize:any, DataTypes:any) => {
       primaryKey: true
     },
     name: DataTypes.STRING,
-    lastName: DataTypes.STRING, 
     email: DataTypes.STRING,
     role:{
       type:DataTypes.STRING,
       allowNull:false,
       defaultValue:UserRoles.CUSTOMER
-    }
+    },
+    balance: {
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: false,
+      defaultValue: 0
+    },
   }, {
     sequelize,
     modelName: 'User',
