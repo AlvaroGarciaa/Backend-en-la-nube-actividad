@@ -18,8 +18,8 @@ class ManagerController extends AbstractController{
     }
 
     protected initRoutes(): void {
-        this.router.get("/agente/consultarCuentas", this.getAccounts.bind(this));
-        this.router.get("/agente/segmentacion", this.getSegmentation.bind(this));
+        this.router.get("/consultarCuentas", this.getAccounts.bind(this));
+        this.router.get("/segmentacion", this.getSegmentation.bind(this));
     }
 
     private getAccounts(req: Request, res: Response){
