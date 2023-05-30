@@ -4,6 +4,7 @@ import cors from "cors";
 import UserController from "./controllers/UserController";
 import AccountController from "./controllers/AccountController";
 import AuthenticationController from "./controllers/AuthenticationController";
+import ManagerController from "./controllers/ManagerController";
 
 const app = new Server({
     port: 8080,
@@ -16,6 +17,8 @@ const app = new Server({
         UserController.getInstance(),
         AuthenticationController.getInstance(),
         AccountController.getInstance(),
+        ManagerController.getInstance(),
+
     ],
     env: "development",
 });
