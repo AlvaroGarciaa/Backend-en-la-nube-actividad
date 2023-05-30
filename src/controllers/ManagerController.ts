@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import AbstractController from './AbstractController';
+import db from '../models';
 
 
 class ManagerController extends AbstractController{
@@ -18,12 +19,18 @@ class ManagerController extends AbstractController{
     }
 
     protected initRoutes(): void {
-        this.router.get("/agente/consultarCuentas", this.getAccounts.bind(this));
-        this.router.get("/agente/segmentacion", this.getSegmentation.bind(this));
+        this.router.get("/consultarCuentas", this.getAccounts.bind(this));
+        this.router.get("/segmentacion", this.getSegmentation.bind(this));
     }
 
-    private getAccounts(req: Request, res: Response){
-        res.status(200).send("Todas las cuentas alv");
+    private async getAccounts(req: Request, res: Response){
+        try{
+            const accounts = await db.User.findAll();
+
+            return res.status(200).send({'accounts': accounts});
+        }catch(error){
+            return res.status(500).send({'error': error});
+        }
     }
 
     private getSegmentation(req: Request, res: Response){
