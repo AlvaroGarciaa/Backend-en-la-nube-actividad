@@ -93,7 +93,7 @@ class AuthenticationController extends AbstractController{
                 }
             ])
             // //Guard el usuario en DB relacional (MySQL)
-            await db['Manager'].create({
+            await db['Agent'].create({
                 awsCognitoId:user.UserSub,
                 name,
                 email
